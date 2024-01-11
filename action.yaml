@@ -1,0 +1,27 @@
+name: "Semantic Release Action"
+description: "Runs Semantic Release"
+
+inputs:
+  version:
+    default: "21.0.2"
+    description: "npm version of semantic-release to use"
+  plugins:
+    default: ""
+    description: "semantic-release plugins to install"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "18"
+
+    - uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+
+    - run: "npm i -g semantic-release@${{ inputs.version }} ${{ inputs.plugins }}"
+      shell: bash
+
+    - run: "npx semantic-release"
+      shell: bash
